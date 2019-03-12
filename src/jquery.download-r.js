@@ -37,9 +37,9 @@
       var functions = {
         downloadFile(downloadr) {
           var downloadLink = document.createElement('a');
-		  downloadLink.href = $(downloadr).attr('href'); // Link to download from
-		  downloadLink.download = downloadLink.href.substr(downloadLink.href.lastIndexOf("/") + 1); // Filename after download
-		  downloadLink.dispatchEvent(new MouseEvent('click'));
+	  downloadLink.href = $(downloadr).attr('href'); // Link to download from
+	  downloadLink.download = downloadLink.href.substr(downloadLink.href.lastIndexOf("/") + 1); // Filename after download
+	  downloadLink.dispatchEvent(new MouseEvent('click'));
         }
       }
 
@@ -56,10 +56,8 @@
          */
         $(elements.links).on('click', function(e) {
           e.preventDefault();
-		  functions.downloadFile(this);
+	  functions.downloadFile(this);
         });
-		
-		console.log(elements.links);
       });
     }
   });
