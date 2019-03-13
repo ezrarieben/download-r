@@ -21,44 +21,48 @@
 */
 ;
 (function($) {
-  $.fn.extend({
-    downloadr: function(options) {
-	  
-      this.defaultOptions = {
-        elements: {
-          selectors: {
-            link: '.download-r',
-          }
+    $.fn.extend({
+        downloadr: function(options) {
+
+            this.defaultOptions = {
+                elements: {
+                    selectors: {
+                        link: '.download-r',
+                    }
+                }
+            };
+
+            var settings = $.extend({}, this.defaultOptions, options);
+
+            var functions = {
+                downloadFile: function(downloadr) {
+                    var downloadLink = document.createElement('a');
+                    downloadLink.href = $(downloadr).attr('href'); // Link to download from
+                    downloadLink.download = downloadLink.href.substr(downloadLink.href.lastIndexOf("/") + 1); // Filename after download
+                    if (window.navigator.userAgent.indexOf("MSIE") !== -1 || navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                        window.open(downloadLink.href, '_blank');
+                    } else {
+                        downloadLink.click();
+                    }
+                }
+            }
+
+            return this.each(function() {
+                var _this = $(this);
+
+                // downloadr elements used
+                var elements = {
+                    links: _this.find(settings.elements.selectors.link)
+                };
+
+                /**
+                 * Add event handler for click on download link
+                 */
+                $(elements.links).on('click', function(e) {
+                    e.preventDefault();
+                    functions.downloadFile(this);
+                });
+            });
         }
-      };
-
-      var settings = $.extend({}, this.defaultOptions, options);
-	  
-      var functions = {
-        downloadFile(downloadr) {
-          var downloadLink = document.createElement('a');
-	  downloadLink.href = $(downloadr).attr('href'); // Link to download from
-	  downloadLink.download = downloadLink.href.substr(downloadLink.href.lastIndexOf("/") + 1); // Filename after download
-	  downloadLink.dispatchEvent(new MouseEvent('click'));
-        }
-      }
-
-      return this.each(function() {
-        var _this = $(this);
-
-        // downloadr elements used
-        var elements = {
-          links: _this.find(settings.elements.selectors.link)
-        };
-
-        /**
-         * Add event handler for click on download link
-         */
-        $(elements.links).on('click', function(e) {
-          e.preventDefault();
-	  functions.downloadFile(this);
-        });
-      });
-    }
-  });
+    });
 })(jQuery)
